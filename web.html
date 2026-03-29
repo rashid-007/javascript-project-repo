@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rashid Institute - Best Computer & IT Training in Siwan, Bihar</title>
+    
+    <!-- Tailwind CSS + Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * { font-family: 'Segoe UI', system-ui, sans-serif; scroll-behavior: smooth; }
+        .glass-nav { background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.05); }
+        .hero-bg { background: linear-gradient(135deg, #0f2b2a 0%, #1e5a4a 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2); }
+        .fade-in { animation: fadeInUp 0.6s ease-out; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .course-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f59e0b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .testimonial-card {
+            border-left: 4px solid #f59e0b;
+        }
+        .floating-whatsapp {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Flash Sale Banner -->
+    <div class="bg-gradient-to-r from-amber-600 to-orange-600 text-white text-center py-3 text-sm md:text-base font-bold">
+        🎉 रशीद सर का विशेष ऑफर: सभी कोर्सेस पर 50% तक की छूट! 🎉
+        <span id="timerDisplay" class="font-mono bg-black/30 px-3 py-1 rounded-md ml-2 inline-block"></span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-200 px-6 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-chalkboard-user text-3xl text-emerald-700"></i>
+                <div>
+                    <h1 class="font-extrabold text-2xl tracking-tight">RASHID <span class="text-amber-600">INSTITUTE</span></h1>
+                    <p class="text-xs text-gray-500">सीखें, बढ़ें, सफल बनें</p>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8 font-semibold">
+                <a href="#home" class="hover:text-emerald-700 transition">🏠 Home</a>
+                <a href="#about" class="hover:text-emerald-700 transition">📖 About Us</a>
+                <a href="#courses" class="hover:text-emerald-700 transition">📚 Courses</a>
+                <a href="#testimonials" class="hover:text-emerald-700 transition">⭐ Reviews</a>
+                <a href="#contact" class="hover:text-emerald-700 transition">📞 Contact</a>
+                <a href="#dashboard" class="hover:text-emerald-700 transition" id="dashboardLink" style="display:none;">📊 My Dashboard</a>
+            </div>
+            <div class="flex gap-3">
+                <div id="authButtons">
+                    <button onclick="showLoginModal()" class="bg-white border border-emerald-600 text-emerald-700 px-5 py-2 rounded-xl font-bold hover:bg-emerald-50 transition">
+                        <i class="fas fa-graduation-cap mr-1"></i> Login
+                    </button>
+                    <button onclick="showRegisterModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-xl font-bold shadow-md transition">
+                        Register <i class="fas fa-user-plus ml-1"></i>
+                    </button>
+                </div>
+                <div id="userInfo" style="display:none;" class="flex items-center gap-3 bg-emerald-50 px-4 py-2 rounded-full">
+                    <i class="fas fa-user-circle text-2xl text-emerald-700"></i>
+                    <span id="userName" class="font-semibold text-emerald-700"></span>
+                    <button onclick="logout()" class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600">Logout</button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden flex justify-center gap-4 mt-3 text-sm font-medium text-gray-600 border-t pt-2 flex-wrap">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#courses">Courses</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg text-white py-20 px-6 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="fade-in">
+                <span class="bg-amber-500/30 text-amber-200 px-4 py-1.5 rounded-full text-sm font-bold inline-block mb-4">
+                    <i class="fas fa-star-of-life mr-1"></i> 10+ Years of Excellence
+                </span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-4 leading-tight">
+                    रशीद सर से <span class="text-amber-300 underline decoration-amber-400">सीखें</span><br>
+                    करियर बनाएं
+                </h1>
+                <p class="mt-6 text-lg text-gray-200 leading-relaxed">
+                    बिहार का नंबर-1 कंप्यूटर एजुकेशन सेंटर | 5000+ स्टूडेंट्स प्लेस्ड | 40+ कोर्सेस
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <div class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2">
+                        <i class="fas fa-check-circle text-amber-400"></i>
+                        <span>100% Practical</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2">
+                        <i class="fas fa-check-circle text-amber-400"></i>
+                        <span>Certification</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2">
+                        <i class="fas fa-check-circle text-amber-400"></i>
+                        <span>Placement Support</span>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-wrap gap-5">
+                    <button onclick="scrollToCourses()" class="bg-amber-500 hover:bg-amber-600 px-8 py-4 rounded-xl font-bold text-lg shadow-xl transition transform hover:scale-105">
+                        <i class="fas fa-play-circle"></i> कोर्सेस देखें
+                    </button>
+                    <button onclick="showFreeWebinar()" class="border-2 border-white/70 hover:bg-white/10 px-7 py-4 rounded-xl font-bold transition">
+                        <i class="fas fa-chalkboard"></i> फ्री डेमो लें
+                    </button>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <img src="https://img.freepik.com/free-vector/online-learning-concept-illustration_114360-2486.jpg" alt="Rashid Institute Teaching" class="rounded-2xl shadow-2xl border border-white/20">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-white py-12 border-b">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div><i class="fas fa-users text-4xl text-emerald-600"></i><p class="text-2xl font-bold mt-2">5000+</p><p class="text-gray-500">Students Trained</p></div>
+            <div><i class="fas fa-chalkboard text-4xl text-emerald-600"></i><p class="text-2xl font-bold mt-2">40+</p><p class="text-gray-500">Courses</p></div>
+            <div><i class="fas fa-trophy text-4xl text-emerald-600"></i><p class="text-2xl font-bold mt-2">97%</p><p class="text-gray-500">Placement Rate</p></div>
+            <div><i class="fas fa-star text-4xl text-emerald-600"></i><p class="text-2xl font-bold mt-2">4.9</p><p class="text-gray-500">Rating (500+ Reviews)</p></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="max-w-7xl mx-auto py-20 px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold">About <span class="text-emerald-700">Rashid Institute</span></h2>
+            <div class="h-1 w-24 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            <p class="text-gray-600 mt-4 max-w-2xl mx-auto">सीवान, बिहार का प्रीमियर कंप्यूटर एजुकेशन सेंटर</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-l-8 border-amber-500">
+                <i class="fas fa-quote-left text-4xl text-amber-500 mb-4"></i>
+                <p class="text-lg text-gray-700 leading-relaxed">"मेरा मिशन है कि हर छात्र को किफायती दरों पर बेहतरीन टेक एजुकेशन मिले। 10+ साल के अनुभव के साथ, मैंने हजारों छात्रों को इंडस्ट्री में सफल बनाया है। रशीद इंस्टीट्यूट में हम प्रैक्टिकल लर्निंग पर फोकस करते हैं।"</p>
+                <div class="mt-6 flex items-center gap-4">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-full border-2 border-amber-500" alt="Rashid Sir">
+                    <div>
+                        <p class="font-bold text-xl">Rashid Sir</p>
+                        <p class="text-gray-500">Founder & Mentor | 10+ Years Experience</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                    <i class="fas fa-map-marker-alt text-amber-600 text-2xl mt-1"></i>
+                    <div><p class="font-bold">📍 हमारा पता</p><p>शहीद चौक के पास, सिवान, बिहार - 841226</p></div>
+                </div>
+                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                    <i class="fas fa-phone-alt text-amber-600 text-2xl mt-1"></i>
+                    <div><p class="font-bold">📞 संपर्क करें</p><p>+91 9006736112 | +91 7739444252</p></div>
+                </div>
+                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                    <i class="fas fa-clock text-amber-600 text-2xl mt-1"></i>
+                    <div><p class="font-bold">⏰ समय</p><p>सोमवार - शनिवार: सुबह 9:00 बजे - शाम 7:00 बजे</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="bg-gray-100 py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">🎓 हमारे <span class="text-amber-600">कोर्सेस</span></h2>
+                <p class="text-gray-600 mt-2">40+ कोर्सेस | ऑनलाइन & ऑफलाइन क्लासेस</p>
+                <div class="h-1 w-24 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6" id="coursesContainer"></div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="max-w-7xl mx-auto py-20 px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">⭐ छात्रों की <span class="text-emerald-700">राय</span></h2>
+            <p class="text-gray-600">5000+ खुश छात्रों की सफलता की कहानी</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md testimonial-card">
+                <i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i>
+                <p class="mt-3 text-gray-600">"रशीद सर ने मेरी जिंदगी बदल दी। अब मैं एक MNC में काम कर रहा हूं। बहुत-बहुत धन्यवाद!"</p>
+                <p class="font-bold mt-4">- राजीव कुमार, सिवान</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md testimonial-card">
+                <i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i>
+                <p class="mt-3 text-gray-600">"बहुत अच्छा teaching style है। Practical knowledge बहुत मिलता है। सभी को recommend करता हूं।"</p>
+                <p class="font-bold mt-4">- प्रिया कुमारी, छपरा</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md testimonial-card">
+                <i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i><i class="fas fa-star text-amber-500"></i>
+                <p class="mt-3 text-gray-600">"Affordable fees और quality education। रशीद सर बहुत supportive हैं। सिवान का best institute।"</p>
+                <p class="font-bold mt-4">- अमित कुमार, सिवान</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="max-w-7xl mx-auto py-20 px-6" style="display:none;">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">📚 मेरे <span class="text-emerald-700">कोर्सेस</span></h2>
+            <div class="h-1 w-24 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+        </div>
+        <div id="myCoursesContainer" class="grid md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-gray-900 text-white py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">📞 संपर्क <span class="text-amber-400">करें</span></h2>
+                <p class="text-gray-300 mt-2">किसी भी सवाल के लिए हमसे जुड़ें</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl">
+                        <i class="fas fa-map-marker-alt text-amber-400 text-2xl"></i>
+                        <div><p class="font-bold">हमारा पता</p><p>शहीद चौक के पास, सिवान, बिहार - 841226</p></div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl">
+                        <i class="fas fa-phone-alt text-amber-400 text-2xl"></i>
+                        <div><p class="font-bold">फोन नंबर</p><p>+91 9006736112 <br> +91 7739444252</p></div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl">
+                        <i class="fas fa-envelope text-amber-400 text-2xl"></i>
+                        <div><p class="font-bold">ईमेल</p><p>rashid@institute.com | support@rashidinstitute.com</p></div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl">
+                        <i class="fab fa-whatsapp text-green-400 text-2xl"></i>
+                        <div><p class="font-bold">व्हाट्सएप</p><p>+91 9006736112 (24x7 Support)</p></div>
+                    </div>
+                </div>
+                <div class="bg-white/10 p-8 rounded-2xl backdrop-blur">
+                    <form id="contactForm" onsubmit="submitContact(event)">
+                        <input type="text" id="contactName" placeholder="आपका नाम" required class="w-full bg-white/20 rounded-xl px-4 py-3 mb-4 text-white placeholder-gray-300">
+                        <input type="email" id="contactEmail" placeholder="ईमेल" required class="w-full bg-white/20 rounded-xl px-4 py-3 mb-4 text-white placeholder-gray-300">
+                        <input type="tel" id="contactPhone" placeholder="मोबाइल नंबर" class="w-full bg-white/20 rounded-xl px-4 py-3 mb-4 text-white placeholder-gray-300">
+                        <select id="contactCourse" class="w-full bg-white/20 rounded-xl px-4 py-3 mb-4 text-white">
+                            <option value="">कोर्स चुनें</option>
+                            <option>Python Programming</option>
+                            <option>Java Development</option>
+                            <option>Web Development (HTML/CSS/JS)</option>
+                            <option>Spoken English</option>
+                            <option>Trading & Stock Market</option>
+                            <option>Full Stack Development</option>
+                        </select>
+                        <textarea id="contactMsg" rows="4" placeholder="आपका संदेश" required class="w-full bg-white/20 rounded-xl px-4 py-3 mb-4 text-white placeholder-gray-300"></textarea>
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition">📩 संदेश भेजें</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-gray-400 py-12 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+            <div><h3 class="text-white font-bold text-xl">RASHID INSTITUTE</h3><p class="mt-2 text-sm">सीवान, बिहार का प्रीमियर कंप्यूटर एजुकेशन सेंटर</p></div>
+            <div><h4 class="font-semibold text-white mb-3">Quick Links</h4><ul class="space-y-1"><li><a href="#home" class="hover:text-amber-400">Home</a></li><li><a href="#about" class="hover:text-amber-400">About</a></li><li><a href="#courses" class="hover:text-amber-400">Courses</a></li><li><a href="#contact" class="hover:text-amber-400">Contact</a></li></ul></div>
+            <div><h4 class="font-semibold text-white mb-3">Contact Info</h4><p><i class="fas fa-phone"></i> +91 9006736112</p><p><i class="fab fa-whatsapp"></i> +91 7739444252</p><p><i class="fas fa-map-marker"></i> Siwan, Bihar</p></div>
+            <div><h4 class="font-semibold text-white mb-3">Follow Us</h4><div class="flex gap-4 text-2xl"><i class="fab fa-facebook hover:text-amber-400 cursor-pointer"></i><i class="fab fa-instagram hover:text-amber-400 cursor-pointer"></i><i class="fab fa-youtube hover:text-amber-400 cursor-pointer"></i><i class="fab fa-telegram hover:text-amber-400 cursor-pointer"></i></div></div>
+        </div>
+        <div class="text-center text-xs pt-8 border-t border-gray-800 mt-8">© 2024 Rashid Institute - All Rights Reserved | Made with ❤️ in Siwan, Bihar</div>
+    </footer>
+
+    <!-- Modals (same as before but keeping it clean) -->
+    <div id="loginModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"><div class="bg-white rounded-2xl p-8 w-96"><h3 class="text-2xl font-bold mb-4">Login</h3><input type="email" id="loginEmail" placeholder="Email" class="w-full border rounded-xl px-4 py-3 mb-3"><input type="password" id="loginPassword" placeholder="Password" class="w-full border rounded-xl px-4 py-3 mb-4"><button onclick="login()" class="w-full bg-emerald-700 text-white py-3 rounded-xl font-bold">Login</button><button onclick="closeModals()" class="w-full mt-2 text-gray-500">Cancel</button></div></div>
+    <div id="registerModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"><div class="bg-white rounded-2xl p-8 w-96"><h3 class="text-2xl font-bold mb-4">Register</h3><input type="text" id="regName" placeholder="Full Name" class="w-full border rounded-xl px-4 py-3 mb-3"><input type="email" id="regEmail" placeholder="Email" class="w-full border rounded-xl px-4 py-3 mb-3"><input type="password" id="regPassword" placeholder="Password" class="w-full border rounded-xl px-4 py-3 mb-4"><button onclick="register()" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold">Register</button><button onclick="closeModals()" class="w-full mt-2 text-gray-500">Cancel</button></div></div>
+    <div id="webinarModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden"><div class="bg-white rounded-2xl w-full max-w-3xl"><div class="flex justify-between p-4 border-b"><span class="font-bold">Free Demo by Rashid Sir</span><button onclick="closeWebinar()" class="text-red-500 text-2xl">&times;</button></div><div class="aspect-video"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"></iframe></div></div></div>
+
+    <!-- WhatsApp Float -->
+    <div class="fixed bottom-6 left-6 z-50 floating-whatsapp"><a href="https://wa.me/919006736112" class="bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition"><i class="fab fa-whatsapp"></i></a></div>
+    <button id="topBtn" class="hidden fixed bottom-6 right-6 bg-amber-600 text-white w-11 h-11 rounded-full shadow-md hover:bg-amber-700"><i class="fas fa-arrow-up"></i></button>
+
+    <script>
+        // Database initialization
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        let courses = JSON.parse(localStorage.getItem('courses') || '[]');
+        let enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
+
+        // All Courses with new additions
+        if(courses.length === 0) {
+            courses = [
+                { id: 1, title: "🐍 Python Programming", instructor: "Rashid Sir", price: 4999, originalPrice: 9999, discount: 50, duration: "8 weeks", level: "Beginner to Advanced", icon: "fab fa-python", category: "Programming", popular: true },
+                { id: 2, title: "☕ Java Development", instructor: "Rashid Sir", price: 5999, originalPrice: 11999, discount: 50, duration: "10 weeks", level: "Beginner to Advanced", icon: "fab fa-java", category: "Programming", popular: true },
+                { id: 3, title: "🌐 Web Development (HTML/CSS/JS)", instructor: "Rashid Sir", price: 3999, originalPrice: 7999, discount: 50, duration: "6 weeks", level: "Beginner", icon: "fab fa-html5", category: "Web", popular: true },
+                { id: 4, title: "💬 Spoken English", instructor: "Rashid Sir", price: 2999, originalPrice: 5999, discount: 50, duration: "8 weeks", level: "All Levels", icon: "fas fa-language", category: "Language", popular: true },
+                { id: 5, title: "📈 Trading & Stock Market", instructor: "Rashid Sir", price: 7999, originalPrice: 15999, discount: 50, duration: "12 weeks", level: "Intermediate", icon: "fas fa-chart-line", category: "Finance", popular: true },
+                { id: 6, title: "🚀 Full Stack Development", instructor: "Rashid Sir", price: 9999, originalPrice: 19999, discount: 50, duration: "16 weeks", level: "Advanced", icon: "fas fa-layer-group", category: "Web", popular: true },
+                { id: 7, title: "☁️ DevOps with AWS", instructor: "Rashid Sir", price: 9499, originalPrice: 18999, discount: 50, duration: "12 weeks", level: "Advanced", icon: "fab fa-aws", category: "Cloud", popular: false },
+                { id: 8, title: "📊 Data Science & AI", instructor: "Rashid Sir", price: 11999, originalPrice: 23999, discount: 50, duration: "14 weeks", level: "Advanced", icon: "fas fa-brain", category: "Data Science", popular: false },
+                { id: 9, title: "🎨 Graphic Design", instructor: "Rashid Sir", price: 4499, originalPrice: 8999, discount: 50, duration: "8 weeks", level: "Beginner", icon: "fas fa-palette", category: "Design", popular: false },
+                { id: 10, title: "📱 Android App Development", instructor: "Rashid Sir", price: 6999, originalPrice: 13999, discount: 50, duration: "12 weeks", level: "Intermediate", icon: "fab fa-android", category: "Mobile", popular: false }
+            ];
+            localStorage.setItem('courses', JSON.stringify(courses));
+        }
+
+        function saveData() { localStorage.setItem('users', JSON.stringify(users)); localStorage.setItem('courses', JSON.stringify(courses)); localStorage.setItem('enrollments', JSON.stringify(enrollments)); }
+        function showToast(msg, isError = false) { let toast = document.createElement('div'); toast.className = 'toast-notification'; toast.style.background = isError ? '#ef4444' : '#10b981'; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+        
+        function showLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+        function showRegisterModal() { document.getElementById('registerModal').classList.remove('hidden'); }
+        function closeModals() { document.getElementById('loginModal').classList.add('hidden'); document.getElementById('registerModal').classList.add('hidden'); }
+        
+        function register() {
+            let name = document.getElementById('regName').value, email = document.getElementById('regEmail').value, password = document.getElementById('regPassword').value;
+            if(!name || !email || !password) { showToast("सभी फील्ड भरें", true); return; }
+            if(password.length < 6) { showToast("पासवर्ड 6 कैरेक्टर से अधिक होना चाहिए", true); return; }
+            if(users.find(u => u.email === email)) { showToast("ईमेल पहले से रजिस्टर्ड है", true); return; }
+            users.push({ id: Date.now(), name, email, password, role: 'student', enrolledCourses: [] });
+            saveData();
+            showToast("रजिस्ट्रेशन सफल! अब लॉगिन करें");
+            closeModals();
+        }
+        
+        function login() {
+            let email = document.getElementById('loginEmail').value, password = document.getElementById('loginPassword').value;
+            let user = users.find(u => u.email === email && u.password === password);
+            if(!user) { showToast("गलत ईमेल या पासवर्ड", true); return; }
+            currentUser = { id: user.id, name: user.name, email: user.email, enrolledCourses: user.enrolledCourses || [] };
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUIAfterLogin();
+            closeModals();
+            showToast(`स्वागत है, ${user.name}!`);
+            renderCourses();
+        }
+        
+        function logout() { sessionStorage.removeItem('currentUser'); currentUser = null; updateUIAfterLogin(); document.getElementById('dashboard').style.display = 'none'; showToast("लॉगआउट सफल"); renderCourses(); }
+        
+        function updateUIAfterLogin() {
+            if(currentUser) {
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'flex';
+                document.getElementById('userName').innerText = currentUser.name;
+                document.getElementById('dashboardLink').style.display = 'inline-block';
+            } else {
+                document.getElementById('authButtons').style.display = 'flex';
+                document.getElementById('userInfo').style.display = 'none';
+                document.getElementById('dashboardLink').style.display = 'none';
+            }
+        }
+        
+        function enrollCourse(courseId) {
+            if(!currentUser) { showToast("पहले लॉगिन करें!", true); showLoginModal(); return; }
+            let course = courses.find(c => c.id === courseId);
+            if(enrollments.find(e => e.userId === currentUser.id && e.courseId === courseId)) { showToast("पहले से एनरोल्ड हैं!", true); return; }
+            enrollments.push({ id: Date.now(), userId: currentUser.id, courseId: courseId, enrolledAt: new Date(), progress: 0 });
+            if(!currentUser.enrolledCourses) currentUser.enrolledCourses = [];
+            currentUser.enrolledCourses.push(courseId);
+            let userIndex = users.findIndex(u => u.id === currentUser.id);
+            if(userIndex !== -1) users[userIndex].enrolledCourses = currentUser.enrolledCourses;
+            saveData();
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            showToast(`${course.title} में एनरोलमेंट सफल!`);
+            renderMyCourses();
+        }
+        
+        function updateProgress(courseId, newProgress) {
+            let enrollment = enrollments.find(e => e.userId === currentUser?.id && e.courseId === courseId);
+            if(enrollment) { enrollment.progress = newProgress; saveData(); showToast(`प्रोग्रेस ${newProgress}% अपडेट की गई`); renderMyCourses(); }
+        }
+        
+        function renderCourses() {
+            let container = document.getElementById('coursesContainer');
+            if(!container) return;
+            container.innerHTML = courses.map(course => `
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover relative">
+                    ${course.popular ? '<div class="course-badge"><i class="fas fa-fire"></i> Popular</div>' : ''}
+                    <div class="p-6">
+                        <i class="${course.icon} text-4xl text-emerald-600 mb-3"></i>
+                        <h3 class="text-lg font-bold">${course.title}</h3>
+                        <p class="text-gray-500 text-sm">by ${course.instructor}</p>
+                        <p class="mt-2 text-xs text-gray-400">${course.duration} • ${course.level}</p>
+                        <div class="mt-3 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-emerald-700">₹${course.price}</span>
+                            <span class="line-through text-gray-400">₹${course.originalPrice}</span>
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">${course.discount}% off</span>
+                        </div>
+                        <button onclick="enrollCourse(${course.id})" class="mt-4 w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-xl transition text-sm">
+                            ${currentUser && enrollments.find(e => e.userId === currentUser.id && e.courseId === course.id) ? '✅ Enrolled' : '📖 Enroll Now'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderMyCourses() {
+            let container = document.getElementById('myCoursesContainer');
+            if(!container || !currentUser) return;
+            let myEnrollments = enrollments.filter(e => e.userId === currentUser.id);
+            if(myEnrollments.length === 0) { container.innerHTML = `<div class="col-span-2 text-center py-10"><i class="fas fa-book-open text-5xl text-gray-300"></i><p class="mt-3">अभी कोई कोर्स एनरोल नहीं किया है। <a href="#courses" class="text-emerald-600 underline">कोर्सेस देखें</a></p></div>`; return; }
+            container.innerHTML = myEnrollments.map(enroll => {
+                let course = courses.find(c => c.id === enroll.courseId);
+                return `<div class="bg-white rounded-xl shadow-md p-5"><div class="flex justify-between"><div><h3 class="text-xl font-bold">${course?.title}</h3><p class="text-gray-500">${course?.instructor}</p></div><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm">${enroll.progress}%</span></div><div class="mt-3"><div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-emerald-600 h-2 rounded-full" style="width: ${enroll.progress}%"></div></div><div class="mt-3 flex gap-2"><button onclick="updateProgress(${course?.id}, ${Math.min(enroll.progress + 10, 100)})" class="text-sm bg-emerald-100 px-3 py-1 rounded-lg">+10%</button><button onclick="updateProgress(${course?.id}, ${Math.min(enroll.progress + 25, 100)})" class="text-sm bg-amber-100 px-3 py-1 rounded-lg">+25%</button></div></div></div>`;
+            }).join('');
+        }
+        
+        function scrollToCourses() { document.getElementById('courses').scrollIntoView({ behavior: 'smooth' }); }
+        function showFreeWebinar() { document.getElementById('webinarModal').classList.remove('hidden'); }
+        function closeWebinar() { document.getElementById('webinarModal').classList.add('hidden'); }
+        
+        function submitContact(e) {
+            e.preventDefault();
+            let name = document.getElementById('contactName').value;
+            let course = document.getElementById('contactCourse').value;
+            showToast(`धन्यवाद ${name}! रशीद सर जल्द ही संपर्क करेंगे। कोर्स: ${course || 'कोई भी'}`);
+            document.getElementById('contactForm').reset();
+        }
+        
+        document.getElementById('dashboardLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(!currentUser) { showToast("पहले लॉगिन करें", true); return; }
+            document.getElementById('dashboard').style.display = 'block';
+            renderMyCourses();
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        let timeLeft = 7200;
+        setInterval(() => { let h = Math.floor(timeLeft/3600), m = Math.floor((timeLeft%3600)/60), s = timeLeft%60; document.getElementById('timerDisplay').innerText = `${h}h ${m}m ${s}s`; if(timeLeft>0) timeLeft--; }, 1000);
+        
+        let topBtn = document.getElementById('topBtn');
+        window.onscroll = () => { topBtn.classList.toggle('hidden', window.scrollY <= 400); };
+        topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        updateUIAfterLogin();
+        renderCourses();
+    </script>
+</body>
+</html>
